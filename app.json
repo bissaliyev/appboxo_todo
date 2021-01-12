@@ -1,0 +1,33 @@
+{
+  "name": "AppBoxo Todo",
+  "description": "Take home assignment from AppBoxo to implement ToDO app",
+  "image": "heroku/python",
+  "repository": "https://github.com/heroku/python-getting-started",
+  "keywords": [
+    "python",
+    "django",
+    "todo",
+    "appboxo"
+  ],
+  "addons": [
+    "heroku-postgresql",
+    "memcachier"
+  ],
+  "env": {
+    "SECRET_KEY": {
+      "description": "The secret key for the Django application.",
+      "generator": "secret"
+    }
+  },
+  "scripts": {
+    "postdeploy": "python manage.py migrate"
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "python manage.py collectstatic --noinput",
+        "test": "python manage.py test"
+      }
+    }
+  }
+}

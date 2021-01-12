@@ -1,0 +1,11 @@
+asgiref
+Django
+gunicorn
+pytz
+sqlparse
+djangorestframework
+django-environ
+psycopg2
+django-cors-headers
+django-heroku
+django-bmemcached

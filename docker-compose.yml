@@ -1,0 +1,44 @@
+version: '3'
+services:
+#  redis:
+#    image: "redis:alpine"
+#    command: "redis-server --requirepass ${REDISPASS} --bind 0.0.0.0"
+#    ports:
+#      - 6379:6379
+  memcached:
+    image: "memcached:latest"
+    ports:
+      - '11211:11211'
+
+  db:
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - memcached
+
+  nginx:
+    image: "nginx:latest"
+    volumes:
+      - ./configuration/nginx/conf.d/:/etc/nginx/conf.d
+      - ./configuration/nginx/realtime:/etc/nginx/realtime
+      - ./static_cdn/static_root/static:/static
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - web

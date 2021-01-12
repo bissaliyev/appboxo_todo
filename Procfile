@@ -1,0 +1,1 @@
+web: gunicorn appboxo.wsgi --log-file -
